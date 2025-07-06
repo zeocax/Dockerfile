@@ -16,7 +16,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: answer
+  IMAGE_NAME: ${{ github.repository_owner }}/answer
 
 jobs:
   build-and-push:
