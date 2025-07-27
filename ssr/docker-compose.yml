@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  shadowsocksr:
+    build: .
+    container_name: shadowsocksr-manager
+    restart: unless-stopped
+    volumes:
+      # 挂载配置文件（urls.txt）到容器中
+      - ./urls.txt:/etc/shadowsocksr/urls.txt
+      # 挂载数据目录以持久化节点信息
+      - ./data:/root/.shadowsocksr
+    environment:
+      # 可选：修改配置文件路径
+      - SSR_CONFIG_FILE=/etc/shadowsocksr/urls.txt
+    # 如果需要使用代理，取消下面的注释并修改端口
+    # ports:
+    #   - "1080:1080"  # SOCKS5 代理端口
+    #   - "8118:8118"  # HTTP 代理端口 

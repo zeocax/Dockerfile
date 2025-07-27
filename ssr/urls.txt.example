@@ -1,0 +1,8 @@
+# SSR URL 配置文件示例
+# 每行一个 SSR URL
+# 以 # 开头的行会被忽略
+
+# 示例 SSR URL (请替换为实际的 URL)
+# ssr://base64_encoded_url_1
+# ssr://base64_encoded_url_2
+# ssr://base64_encoded_url_3 
