@@ -101,10 +101,7 @@ class SSRConfigHandler(FileSystemEventHandler):
                 print(f"✓ 代理已启动")
                 print(f"  节点 ID: {first_node}")
                 print(f"  SOCKS5 代理: 127.0.0.1:{local_port}")
-                
-                # 显示代理状态
-                print("\n代理状态:")
-                subprocess.run(['shadowsocksr-cli', '-S'])
+                print(f"  代理已在后台运行，可以开始使用")
             except subprocess.CalledProcessError as e:
                 print(f"✗ 启动代理失败: {e}")
 
