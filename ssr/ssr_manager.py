@@ -55,18 +55,19 @@ class SSRConfigHandler(FileSystemEventHandler):
         
         # 获取所有节点并逐一测试
         print("\n获取节点列表...")
-        result = subprocess.run(['shadowsocksr-cli', '-l'], 
-                              capture_output=True, text=True)
+        # result = subprocess.run(['shadowsocksr-cli', '-l'], 
+        #                       capture_output=True, text=True)
         
         # 解析节点 ID（通常在输出的第一列）
-        lines = result.stdout.strip().split('\n')
-        node_ids = []
+        # lines = result.stdout.strip().split('\n')
+        node_ids = ["0"]
         
-        for line in lines[1:]:  # 跳过标题行
-            if line.strip():
-                parts = line.split()
-                if parts and parts[0].isdigit():
-                    node_ids.append(parts[0])
+        # for line in lines[1:]:  # 跳过标题行
+        #     if line.strip():
+        #         parts = line.split()
+        #         if parts and parts[0].isdigit():
+        #             node_ids.append(parts[0])
+        
         
         # 逐一测试节点
         if node_ids:
