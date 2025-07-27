@@ -52,7 +52,7 @@ def process_config(config_file):
         local_port = os.environ.get('SSR_LOCAL_PORT', '1080')
         http_proxy_port = os.environ.get('HTTP_PROXY_PORT', '7890')
         #  shadowsocksr-cli -p 1080 --http-proxy start --http-proxy-port 7890
-        subprocess.run(['shadowsocksr-cli', '-p', local_port, '--http-proxy', 'start', '--http-proxy-port', http_proxy_port], 
+        subprocess.run(['shadowsocksr-cli', '-p', local_port, '--http', 'start', '--http-port', http_proxy_port], 
                      check=True, capture_output=True, text=True)
         print(f"✓ 代理已启动")
         print(f"  节点 ID: 0")
