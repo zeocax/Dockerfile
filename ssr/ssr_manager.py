@@ -50,11 +50,13 @@ def process_config(config_file):
     try:
         # 获取本地端口设置
         local_port = os.environ.get('SSR_LOCAL_PORT', '1080')
-        subprocess.run(['shadowsocksr-cli', '-s', '0', '-p', local_port], 
+        http_proxy_port = os.environ.get('HTTP_PROXY_PORT', '7890')
+        subprocess.run(['shadowsocksr-cli', '-s', '0', '-p', local_port, '--http-proxy', 'start', '--http-proxy-port', http_proxy_port], 
                      check=True, capture_output=True, text=True)
         print(f"✓ 代理已启动")
         print(f"  节点 ID: 0")
         print(f"  SOCKS5 代理: 127.0.0.1:{local_port}")
+        print(f"  HTTP 代理: 127.0.0.1:{http_proxy_port}")
         print(f"  代理已在后台运行，可以开始使用")
         return True
     except subprocess.CalledProcessError as e:
