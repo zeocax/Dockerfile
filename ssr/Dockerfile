@@ -4,9 +4,9 @@ FROM python:3.10-alpine
 # 设置工作目录
 WORKDIR /app
 
-# 更新 pip 并安装 shadowsocksr-cli 和 watchdog
+# 更新 pip 并安装 shadowsocksr-cli
 RUN pip install --upgrade pip && \
-    pip install shadowsocksr-cli watchdog
+    pip install shadowsocksr-cli
 
 # 创建配置文件目录
 RUN mkdir -p /etc/shadowsocksr

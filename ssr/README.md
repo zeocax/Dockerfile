@@ -1,13 +1,13 @@
 # ShadowsocksR 容器化管理器
 
-这是一个基于 Alpine Linux 的最小化 ShadowsocksR 客户端容器，支持动态监视配置文件并自动管理节点。
+这是一个基于 Alpine Linux 的最小化 ShadowsocksR 客户端容器，自动读取配置文件并启动代理服务。
 
 ## 功能特性
 
-- 基于 Python 3.10-alpine 最小镜像（约 100MB）
-- 自动读取配置文件中的 SSR URLs
-- 动态监视配置文件变化，自动更新节点
-- 自动测试所有节点延迟
+- 基于 Python 3.10-alpine 最小镜像（约 80MB）
+- 启动时自动读取配置文件中的 SSR URLs
+- 自动添加所有节点到节点列表
+- 测试第一个节点的连接延迟
 - 显示节点列表和状态
 - **自动启动第一个节点作为 SOCKS5 代理**
 
@@ -37,9 +37,10 @@ docker-compose down
 
 容器启动后会自动：
 1. 读取并添加所有 SSR 节点
-2. 测试每个节点的连接延迟
+2. 测试第一个节点的连接延迟
 3. 显示完整的节点列表
 4. **自动启动第一个节点作为 SOCKS5 代理（端口 1080）**
+5. 保持运行状态，提供代理服务
 
 ### 3. 使用 Docker 命令
 
@@ -94,20 +95,17 @@ ssr://base64_encoded_url_3
 
 ### 管理代理节点
 
-虽然容器会自动启动第一个节点，你也可以手动切换：
+如果需要切换到其他节点，可以进入容器手动操作：
 
 ```bash
-# 查看当前代理状态
-docker exec ssr-manager shadowsocksr-cli -S
+# 查看所有节点
+docker exec ssr-manager shadowsocksr-cli -l
 
-# 切换到其他节点（例如节点 2）
-docker exec ssr-manager shadowsocksr-cli -s 2
+# 切换到其他节点（例如节点 1）
+docker exec ssr-manager shadowsocksr-cli -s 1
 
 # 停止代理
-docker exec ssr-manager shadowsocksr-cli -S
-
-# 使用最快的节点
-docker exec ssr-manager shadowsocksr-cli --fast-node
+docker exec ssr-manager shadowsocksr-cli -S 0
 ```
 
 ## 文件结构
@@ -126,15 +124,16 @@ ssr/
 
 1. 容器启动时读取 `urls.txt` 文件
 2. 自动添加所有 SSR 节点到节点列表
-3. 逐一测试每个节点的延迟
+3. 测试第一个节点的延迟
 4. 显示所有节点的状态列表
 5. **自动启动第一个节点作为 SOCKS5 代理**
-6. 持续监视配置文件变化，如有更新则重复上述流程
+6. 保持运行状态，持续提供代理服务
 
 ## 注意事项
 
-1. 配置文件更新后会自动重新加载并重启代理
-2. 节点测试可能需要一些时间，请耐心等待
+1. 配置文件只在容器启动时读取一次
+2. 默认使用第一个节点（节点 0）作为代理
 3. 数据目录 `data/` 用于持久化节点信息
-4. 容器重启后会自动恢复之前的节点列表并启动代理
-5. 默认 SOCKS5 代理端口为 1080，可通过环境变量修改 
+4. 容器重启后会重新读取配置文件并启动代理
+5. 默认 SOCKS5 代理端口为 1080，可通过环境变量修改
+6. 如需更新配置，请重启容器 
