@@ -84,7 +84,8 @@ class SSRConfigHandler(FileSystemEventHandler):
         print("\n" + "="*80)
         print("当前 SSR 节点列表:")
         print("="*80)
-        subprocess.run(['shadowsocksr-cli', '-l'])
+        result = subprocess.run(['shadowsocksr-cli', '-l'], capture_output=True, text=True)
+        print(result.stdout)  # 手动输出捕获的内容
         
         # 启动第一个节点作为代理
         if node_ids:
