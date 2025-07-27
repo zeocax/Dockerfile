@@ -17,6 +17,8 @@ RUN chmod +x /app/ssr_manager.py
 
 # 设置环境变量（可被覆盖）
 ENV SSR_CONFIG_FILE=/etc/shadowsocksr/urls.txt
+# 禁用 Python 输出缓冲，确保日志实时显示
+ENV PYTHONUNBUFFERED=1
 
 # 设置默认命令运行管理脚本
-CMD ["python", "/app/ssr_manager.py"]
+CMD ["python", "-u", "/app/ssr_manager.py"]
